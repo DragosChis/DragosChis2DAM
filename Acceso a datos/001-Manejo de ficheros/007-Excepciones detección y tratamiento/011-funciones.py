@@ -35,7 +35,7 @@ except OSError as e:
         print("Error de permisos en la carpeta - no puedo guardar")
     else:
         print(f"Unexpected error: {e}")
-
+#Creamos funciones
 def guardaCliente():
     
 def guardaDB():

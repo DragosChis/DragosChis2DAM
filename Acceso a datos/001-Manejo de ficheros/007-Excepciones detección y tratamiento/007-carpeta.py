@@ -28,19 +28,19 @@ os.makedirs(carpeta)
 clientes = []
 clientes.append(Cliente())
 clientes[-1].idcliente = "00001"
-clientes[-1].nombre = "Jose Vicente"
-clientes[-1].apellidos = "Carratalá Sanchis"
-clientes[-1].emails['profesional'].append("info@josevicentecarratala.com")
-clientes[-1].emails['profesional'].append("info@jocarsa.com")
-clientes[-1].emails['personal'].append("jocarsa2@gmail.com")
+clientes[-1].nombre = "Dragos"
+clientes[-1].apellidos = "Chis"
+clientes[-1].emails['profesional'].append("dragos@gmail.com")
+clientes[-1].emails['profesional'].append("info@dragos@email.com")
+clientes[-1].emails['personal'].append("dragoschis@gmail.com")
 
 clientes.append(Cliente())
 clientes[-1].idcliente = "00002"
-clientes[-1].nombre = "Jorge"
-clientes[-1].apellidos = "Lopez martinez"
-clientes[-1].emails['profesional'].append("jorge@josevicentecarratala.com")
-clientes[-1].emails['profesional'].append("jorge@jocarsa.com")
-clientes[-1].emails['personal'].append("jorge@gmail.com")
+clientes[-1].nombre = "Paco"
+clientes[-1].apellidos = "Lopez"
+clientes[-1].emails['profesional'].append("paco@correo.com")
+clientes[-1].emails['profesional'].append("paco@email.com")
+clientes[-1].emails['personal'].append("paco@gmail.com")
 
 for cliente in clientes:
     archivo = open(cliente.idcliente+".json",'w')

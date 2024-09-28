@@ -1,6 +1,6 @@
-import os
+import os #importamos la libreria del sistema
 
-os.rmdir("micarpeta")
+os.rmdir("micarpeta") #Borramos la carpeta 
 
 
 

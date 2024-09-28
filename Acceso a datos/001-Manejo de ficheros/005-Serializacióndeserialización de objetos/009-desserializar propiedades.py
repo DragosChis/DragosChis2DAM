@@ -8,7 +8,7 @@ class Npc:
         self.angulo = nuevoangulo
 
         
-# Creo una lista de 50 npcs
+# Creo una lista de 35 npcs
 npcs = []
 
 # Leo el contenido de la base de datos

@@ -1,2 +1,2 @@
-import os
+import os #importamos la libreria del sistema
 

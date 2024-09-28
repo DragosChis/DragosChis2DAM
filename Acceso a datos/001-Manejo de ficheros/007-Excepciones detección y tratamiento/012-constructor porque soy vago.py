@@ -37,10 +37,10 @@ except OSError as e:
         print("Error de permisos en la carpeta - no puedo guardar")
     else:
         print(f"Unexpected error: {e}")
-
+#Agregamos la funcionalidad
 def guardaCliente():
     global clientes
-    clientes.append(Cliente("00003","Jose Vicente","Carratala","info@jocarsa.com","jocarsa2@gmail.com"))
+    clientes.append(Cliente("00003","Francisco","Perez","info@francisco.com","fran@gmail.com"))
 def guardaDB():
     for cliente in clientes:
         archivo = open(carpeta+"/"+cliente.idcliente+".json",'w')

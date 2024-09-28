@@ -1,10 +1,10 @@
-class Cliente:
+class Cliente: #Creamos una clase cliente con sus respectivos datos
     def __init__(self):
         self.nombre = None
         self.apellidos = None
         self.emails = {"personal":[],"profesional":[]}
 
-class Producto:
+class Producto: #Creamos una clase producto con sus respectivos datos
     def __init__(self):
         self.nombre = None
         self.precio = None
