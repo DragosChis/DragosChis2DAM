@@ -6,17 +6,17 @@
         const tiempoinicio = new Date()
         const epochinicio = tiempoinicio.getTime()
         const lienzo = document.querySelector("#lienzo1")       // Selecciono el lienzo
-        lienzo.width = 6000                                     // Le pongo 6000 pixeles de anchura
-        lienzo.height = 4000                                    // Le pongo 4000 pixeles de altura
+        lienzo.width = 1920                                     // Le pongo 6000 pixeles de anchura
+        lienzo.height = 1076                                    // Le pongo 4000 pixeles de altura
         const contexto = lienzo.getContext("2d")                // Creo un contexto para dibujar en 2d
         var imagen = new Image()                                // Creo una nueva imagen
-        imagen.src = "foto.JPG";                                // Le pongo una imagen real
+        imagen.src = "samurai.jpg";                                // Le pongo una imagen real
         imagen.onload = function(){                             // Solo cuando esa imagen haya cargado en memoria
           contexto.drawImage(imagen,0,0)                        // Pinto la imagen
           
           var datos;
           ///////////////////////////////////////////////////////////////////
-          datos1 = contexto.getImageData(0,0,6000,1000)        // Leo la primera cuarta parte en vertical de la imagen de la imagen (cargo  con una cuarta parte de lo que cargaba antes)
+          datos1 = contexto.getImageData(0,0,1920,1076)        // Leo la primera cuarta parte en vertical de la imagen de la imagen (cargo  con una cuarta parte de lo que cargaba antes)
           var trabajador = new Worker("009-worker.js");         // Creo una nueva instancia de un worker y lo pongo en el identificador llamado trabajador
           trabajador.postMessage(datos1.data)                   // tomo los datos y se los envío al worker
           ///////////////////////////////////////////////////// Y ahora me olvido porque yo ya le he enviado los datos al trabajador, y ya si eso el trabajador me dirá algo

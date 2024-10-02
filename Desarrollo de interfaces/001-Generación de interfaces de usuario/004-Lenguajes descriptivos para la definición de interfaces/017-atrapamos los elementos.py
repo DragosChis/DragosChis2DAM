@@ -1,13 +1,12 @@
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # Importamos ElementTree para trabajar con archivos XML
 
+arbol = ET.parse('013-interfaz.xml')  # Analizamos el archivo XML y obtenemos el árbol de elementos
+raiz = arbol.getroot()  # Obtenemos la raíz del árbol de elementos
 
-arbol = ET.parse('013-interfaz.xml') 
-raiz = arbol.getroot()
-
-for elemento in raiz:
-    if elemento.tag == "boton":
-        print("tienes un boton")
-    elif elemento.tag == "texto":
-        print("tienes un texto")
-    elif elemento.tag == "entrada":
-        print("tienes una entrada")
+for elemento in raiz:  # Iteramos sobre los elementos hijos de la raíz
+    if elemento.tag == "boton":  # Verificamos si el elemento es un botón
+        print("tienes un boton")  # Imprimimos un mensaje si es un botón
+    elif elemento.tag == "texto":  # Verificamos si el elemento es un texto
+        print("tienes un texto")  # Imprimimos un mensaje si es un texto
+    elif elemento.tag == "entrada":  # Verificamos si el elemento es una entrada
+        print("tienes una entrada")  # Imprimimos un mensaje si es una entrada

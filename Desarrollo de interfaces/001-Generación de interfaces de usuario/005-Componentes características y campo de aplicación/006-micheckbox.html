@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Animado en Esquina</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #f0f0f0;
+            height: 100vh;
+        }
+
+        .checkbox-contenedor {
+            position: absolute;
+            top: 10px; 
+            left: 10px; 
+            width: 60px;
+            height: 30px;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.4s ease;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            height: 26px;
+            width: 26px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: transform 0.4s ease;
+        }
+
+        input:checked + .slider {
+            background-color: #ff4d4d; /* Cambia el color de fondo a rojo cuando está marcado */
+        }
+
+        input:checked + .slider::before {
+            transform: translateX(30px); /* Mueve el círculo 30px hacia la derecha al marcar */
+        }
+    </style>
+</head>
+<body>
+
+    <label class="checkbox-contenedor">
+        <input type="checkbox" id="checkbox">
+        <div class="slider"></div> <!-- Contenedor del botón redondo -->
+    </label>
+

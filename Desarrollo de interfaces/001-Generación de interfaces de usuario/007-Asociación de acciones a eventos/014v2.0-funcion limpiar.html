@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif; 
+        display: flex;                   
+        flex-direction: column;          
+        align-items: center;             
+        margin: 0;                       
+        padding: 20px;                   
+        background-color: #f4f4f4;       
+      }
+
+      h1 {
+        margin-bottom: 20px;             
+        color: #000000;                    
+      }
+
+      canvas {
+        border: 2px solid #007BFF;      
+        background-color: white;         
+        margin-top: 20px;                
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+      }
+
+      .herramientas {
+        display: flex;                   
+        gap: 10px;                       
+        margin-bottom: 20px;             
+      }
+
+      button.herramienta {
+        background-color: #007BFF;      
+        color: white;                    
+        border: none;                    
+        padding: 10px 15px;              
+        border-radius: 5px;              
+        cursor: pointer;                 
+        transition: background-color 0.3s, transform 0.3s; 
+      }
+
+      button.herramienta:hover {
+        background-color: #0056b3;       
+        transform: scale(1.05);          
+      }
+
+      input[type="color"], select {
+        margin: 5px;                    
+        padding: 10px;                  
+        border: 1px solid #ccc;         
+        border-radius: 5px;             
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lienzo Para Dibujar</h1> <!-- Título para la aplicación -->
+    <div class="herramientas">      <!-- Contenedor para botones -->
+      <button class="herramienta" id="dibujar">Dibujar</button>
+      <button class="herramienta" id="borrar">Borrar</button>
+      <button class="herramienta" id="limpiar">Limpiar</button>
+      <input type="color" id="color">
+      <select id="radio">
+        <option value=1>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+        <option value=5>5</option>
+        <option value=6>6</option>
+        <option value=7>7</option>
+        <option value=8>8</option>
+        <option value=9>9</option>
+        <option value=10>10</option>
+      </select>
+    </div>
+    <canvas></canvas> <!-- Lienzo donde se dibuja -->
+    <script>
+      var operacion = "dibujar";   // Variable para almacenar la operación actual
+      var radio = 1;                // Tamaño del pincel
+      var pulsado = false;          // Estado del ratón (pulsado o no)
+
+      document.onmousedown = function(){ pulsado = true; }  // Cambia a pulsado al presionar el botón
+      document.onmouseup = function(){ pulsado = false; }   // Cambia a no pulsado al soltar
+
+      const lienzo = document.querySelector("canvas");     // Captura el lienzo
+      const contexto = lienzo.getContext("2d");           // Captura el contexto
+      contexto.fillStyle = "black";                        // Color inicial
+      lienzo.width = 512;                                  // Ancho del lienzo
+      lienzo.height = 512;                                 // Alto del lienzo
+
+      lienzo.onmousemove = function(e) {                   // Evento de movimiento del ratón
+        if (pulsado) {                                    // Si el ratón está pulsado
+          if (operacion == "dibujar") {
+            contexto.fillRect(e.offsetX, e.offsetY, radio, radio); // Dibuja en el lienzo
+          } else {
+            contexto.clearRect(e.offsetX, e.offsetY, radio, radio); // Borra en el lienzo
+          }
+        }
+      }
+
+      document.getElementById("color").onchange = function() { // Cambia el color del contexto
+        contexto.fillStyle = this.value;                      // El color del contexto es el color del input
+      }
+
+      document.getElementById("radio").onchange = function() { // Cambia el tamaño del pincel
+        radio = this.value;                                   // Actualiza el tamaño
+      }
+
+      document.getElementById("dibujar").onclick = function() { // Cambia a modo de dibujar
+        operacion = "dibujar";                               // Cambia la operación a dibujar
+      }
+
+      document.getElementById("borrar").onclick = function() { // Cambia a modo de borrar
+        operacion = "borrar";                                 // Cambia la operación a borrar
+      }
+
+      document.getElementById("limpiar").onclick = function() { // Limpia todo el lienzo
+        contexto.clearRect(0, 0, lienzo.width, lienzo.height); // Limpia todo el área del lienzo
+      };
+    </script>
+  </body>
+</html>

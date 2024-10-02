@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interfaz>
-  <boton>Púlsame</boton>
-  <texto>Esto es un texto</texto>
+  <boton>Click</boton>
+  <texto>Esto es un texto de prueba</texto>
   <entrada></entrada>
-  <boton>Hola</boton>
-  <boton>Que tal</boton>
-  <texto>Este es otro texto</texto>
-  <texto>EY este es otro texto mas</texto>
+  <boton>Primario</boton>
+  <boton>Secundario</boton>
+  <texto>Texto 2</texto>
+  <texto>Texto 3</texto>
   <entrada></entrada>
   <entrada></entrada>
   <entrada></entrada>

@@ -1,10 +1,10 @@
-import tkinter as tk
+import tkinter as tk #Importamos la libreria tkinter para crear interfaces
 
-ventana = tk.Tk()
+ventana = tk.Tk() #Creamos una ventana principal
 
-def diHola():
+def diHola(): #Creamos una funcion que cuando la llamamos dice Hola
     print("Hola")
 
-tk.Button(ventana,text="Pulsame",padx=15,pady=15,command=diHola).pack(padx=40,pady=40)
+tk.Button(ventana,text="Pulsame",padx=15,pady=15,command=diHola).pack(padx=40,pady=40) #Creamos un boton
 
-ventana.mainloop()
+ventana.mainloop() #Ejecutamos el bucle de la aplicacion

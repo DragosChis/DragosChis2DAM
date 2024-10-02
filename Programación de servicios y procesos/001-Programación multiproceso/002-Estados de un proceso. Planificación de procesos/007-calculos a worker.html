@@ -6,14 +6,14 @@
         const tiempoinicio = new Date()
         const epochinicio = tiempoinicio.getTime()
         const lienzo = document.querySelector("#lienzo1")       // Selecciono el lienzo
-        lienzo.width = 6000                                     // Le pongo 6000 pixeles de anchura
-        lienzo.height = 4000                                    // Le pongo 4000 pixeles de altura
+        lienzo.width = 1920                                    // Le pongo 1920 pixeles de anchura
+        lienzo.height = 1076                                  // Le pongo 1076 pixeles de altura
         const contexto = lienzo.getContext("2d")                // Creo un contexto para dibujar en 2d
         var imagen = new Image()                                // Creo una nueva imagen
-        imagen.src = "foto.JPG";                                // Le pongo una imagen real
+        imagen.src = "samurai.jpg";                                // Le pongo una imagen real
         imagen.onload = function(){                             // Solo cuando esa imagen haya cargado en memoria
           contexto.drawImage(imagen,0,0)                        // Pinto la imagen
-          var datos = contexto.getImageData(0,0,6000,4000)      // Leo los datos a la memoria
+          var datos = contexto.getImageData(0,0,1920,1076)      // Leo los datos a la memoria
           var trabajador = new Worker("007-worker.js");
           trabajador.postMessage(datos.data)
           

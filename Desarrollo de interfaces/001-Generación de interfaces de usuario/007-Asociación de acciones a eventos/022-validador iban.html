@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
   <body>
-    <input class="iban">
+    <input class="iban"> <!-- Campo de entrada de texto con una clase llamada iban -->
     <script>
-      const entrada = document.querySelector("input")
-      entrada.onkeyup = function(e){
-        console.log(this.value)
+      const entrada = document.querySelector("input") // Captura el campo de entrada
+      entrada.onkeyup = function(e){                  // Detectamos al pulsar la flecha hacia arriba
+        console.log(this.value)                      // Mostramos en consola los valores que hemos añadido al input
       }
     </script>
   </body>

@@ -1,23 +1,27 @@
 <!doctype html>
 <html>
   <head>
+    <!-- Sección del head, donde podrían ir estilos o metaetiquetas -->
   </head>
   <body>
-    <select id="personas">
-      <option>Selecciona a una persona</option>
+    <select id="razas">  
+      <option>Razas Perros</option> <!-- Opción predeterminada que se muestra antes de cargar las razas -->
     </select>
+
     <script>
-      fetch("personas.json")
-      .then(response => response.json())
+      fetch("razas.json")  <!-- Cargamos el archivo json mediante el fetch -->
+      .then(response => response.json())  <!-- Convertimos la respues a formato json -->
       .then(function(response){
-        console.log(response)
-        response['personas'].forEach(function(currentValue) {
-          let option = document.createElement("option");
-          option.textContent = currentValue;
-          document.querySelector("#personas").appendChild(option);
+        console.log(response)  <!-- Imprime el contenido de 'razas.json' en la consola -->
+        <!-- Recorre cada raza en el objeto 'razas' del JSON -->
+        response['razas'].forEach(function(currentValue) {
+          let option = document.createElement("option");  <!-- Crea una nueva opción en el desplegable -->
+          option.textContent = currentValue;  <!-- Añadimos el nombre de la raza al texto de la opción -->
+          document.querySelector("#razas").appendChild(option);  <!-- Añadimos la opción al elemento select -->
         });
       })
     </script>
   </body>
 </html>
+
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />  <!-- Codificación de caracteres -->
+        <title>Slider</title>  <!-- Título de la página -->
+        <style>
+            /* Estilos para el slider */
+            .slider {  /* Clase para el contenedor del slider */
+                width: 300px;  /* Ancho del slider */
+                height: 20px;  /* Alto del slider */
+                background-color: #ccc;  /* Color de fondo del slider */
+            }
+            .slider input[type="range"] {  /* Estilos para el input del slider */
+                width: 100%;  /* Ancho del input del slider */
+                height: 20px;  /* Alto del input del slider */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="slider">  <!-- Contenedor del slider -->
+            <input type="range" id="slider" min="0" max="100" value="50">  <!-- Input del slider -->
+            <span id="valor">50</span>  <!-- Valor actual del slider -->
+        </div>
+
+        <script>
+            // Obtener el elemento del slider
+            const slider = document.getElementById("slider");  /* Obtener el input del slider */
+            const valor = document.getElementById("valor");  /* Obtener el valor actual del slider */
+
+            // Agregar evento de cambio al slider
+            slider.addEventListener("input", function() {  /* Agregar evento de cambio al input del slider */
+                valor.textContent = this.value;  /* Actualizar el valor actual del slider */
+            });
+        </script>
+    </body>
+</html>

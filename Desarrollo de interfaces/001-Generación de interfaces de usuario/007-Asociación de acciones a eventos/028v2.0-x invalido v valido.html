@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <body>
+    <input class="iban" placeholder="Introduce tu IBAN"> <!-- Campo de entrada con un placeholder -->
+    <span class="validador"></span> <!-- Espacio para el icono de validación -->
+
+    <script>
+      function isLetter(char) {
+        return /^[a-zA-Z]$/.test(char); // Verifica si el carácter es una letra
+      }
+      
+      const entrada = document.querySelector("input"); // Captura el campo de entrada
+      const validador = document.querySelector(".validador"); // Captura el espacio del icono
+
+      entrada.onchange = function(e) { // Evento cuando cambia el valor del input
+        let contenido = this.value; // Almacena el contenido del input
+        for (let i = 0; i < contenido.length; i++) {
+          if (
+            contenido[4] == " " && 
+            contenido[9] == " " && 
+            contenido[14] == " " && 
+            contenido[19] == " " && 
+            isLetter(contenido[0]) && 
+            isLetter(contenido[1])
+          ) {
+            this.style.background = "rgb(7, 254, 255)"; // Cambia el fondo a azul si es válido
+            validador.textContent = "✔"; // Muestra el símbolo de check
+            validador.style.color = "green"; // Cambia el color del símbolo a verde
+          } else {
+            this.style.background = "rgb(255, 0, 0)"; // Cambia el fondo a rojo si es inválido
+            validador.textContent = "✖"; // Muestra el símbolo de X
+            validador.style.color = "red"; // Cambia el color del símbolo a rojo
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

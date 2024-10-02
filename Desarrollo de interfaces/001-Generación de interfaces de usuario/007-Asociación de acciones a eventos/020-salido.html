@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
   <body>
-    <input>
+    <input> <!-- Campo de entrada de texto -->
     <script>
-      const entrada = document.querySelector("input")
-      entrada.onblur = function(e){
-        console.log("has salido")
+      const entrada = document.querySelector("input") // Captura el campo de entrada
+      entrada.onblur = function(e){                   // Detectamos cuando no tenemos seleccionado el input
+        console.log("has salido")                    // Mostramos en mensaje en consola
       }
     </script>
   </body>
