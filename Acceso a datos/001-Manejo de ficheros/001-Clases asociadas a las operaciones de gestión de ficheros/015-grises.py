@@ -1,5 +1,5 @@
-import os  #Creamos una lista a la que asignamos el directorio fotos
-from PIL import Image, ImageOps  
+import os  #Importamos el sistema con el que vamso a trabajar
+from PIL import Image, ImageOps  #Importamos Image y ImageOps para poder modificar imagenes
 
 lista = os.listdir("fotos")  #Creamos una lista a la que asignamos el directorio fotos
 

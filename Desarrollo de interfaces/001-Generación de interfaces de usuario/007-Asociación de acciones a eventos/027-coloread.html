@@ -1,20 +1,28 @@
 <!doctype html>
 <html>
   <body>
-    <input class="iban">
+    <input class="iban">  <!-- Campo de entrada para el código IBAN -->
+
     <script>
-      const entrada = document.querySelector("input")
-      entrada.onchange = function(e){
-        let contenido = this.value;
-        for(let i = 0;i<contenido.length;i++){
-          if(contenido[4] == " " && contenido[9] == " " && contenido[14] == " " && contenido[19] == " "){
-            this.style.background = "rgb(200,255,200)"
-          }else{
-            this.style.background = "rgb(255,200,200)"
+      const entrada = document.querySelector("input")  <!-- Seleccionamos el elemento input de la página -->
+      
+      // Evento que se dispara cuando se cambia el valor del campo input
+      entrada.onchange = function(e) {
+        let contenido = this.value;  // Almacenamos el valor del campo de entrada en la variable 'contenido'
+
+        // Recorremos cada carácter del contenido del input
+        for(let i = 0; i < contenido.length; i++) {
+          
+          // Verificamos si los espacios están en las posiciones correctas del formato IBAN (después de cada 4 caracteres)
+          if(contenido[4] == " " && contenido[9] == " " && contenido[14] == " " && contenido[19] == " ") {
+            this.style.background = "rgb(200,255,200)";  // Cambiamos el fondo a verde si está bien formateado
+          } else {
+            this.style.background = "rgb(255,200,200)";  // Cambiamos el fondo a rojo si el formato es incorrecto
           }
         }
       }
     </script>
   </body>
 </html>
+
 

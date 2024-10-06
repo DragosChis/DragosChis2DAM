@@ -104,7 +104,7 @@ tk.Entry(marco, textvariable=profesional).pack(padx=10, pady=10)
 
 # Creamos los botones para guardar el cliente y la base de datos
 tk.Button(marco, text="Guardamos este cliente", command=guardaCliente).pack(padx=10, pady=10)
-tk.Button(marco, text="Guardamos todos los clientes a base de datos", command=guarda
+tk.Button(marco, text="Guardamos todos los clientes a base de datos", command=guarda)
 
 
         

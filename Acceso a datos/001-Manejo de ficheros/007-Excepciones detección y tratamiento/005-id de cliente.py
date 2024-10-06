@@ -2,12 +2,13 @@ import json
 
 class Cliente:
     def __init__(self):
-        self.idcliente = None
+        self.idcliente = "1"
         self.nombre = None
         self.apellidos = None
         self.emails = {"personal":[],"profesional":[]}
     def to_dict(self):
         return {
+            "idcliente": self.idcliente,
             "nombre": self.nombre,
             "apellidos": self.apellidos,
             "emails": self.emails
