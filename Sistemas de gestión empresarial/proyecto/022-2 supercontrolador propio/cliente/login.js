@@ -1,35 +1,44 @@
-window.onload = function(){
-    console.log("Javascript cargado");
-    document.querySelector("#login").onclick = function(){
-        console.log("Has pulsado el boton");
-        let usuario = document.querySelector("#usuario").value;
-        let contrasena = document.querySelector("#contrasena").value;
-        console.log(usuario,contrasena);
-        let envio = {"usuario":usuario,"contrasena":contrasena};
-        console.log(envio);
+window.onload = function(){ 
+    console.log("Javascript cargado");  // Mensaje en la consola para indicar que el archivo Javascript ha sido cargado
+
+    document.querySelector("#login").onclick = function(){ 
+        console.log("Has pulsado el boton");  // Mensaje en consola al hacer clic en el botón de login
+
+        let usuario = document.querySelector("#usuario").value;  // Obtiene el valor del campo "usuario"
+        let contrasena = document.querySelector("#contrasena").value;  // Obtiene el valor del campo "contraseña"
+        console.log(usuario, contrasena);  // Imprime el usuario y la contraseña en la consola
+
+        let envio = {"usuario":usuario, "contrasena":contrasena};  // Crea un objeto con los datos de usuario y contraseña
+        console.log(envio);  // Imprime el objeto "envio" en la consola
+
         // Me conecto a un microservicio y le envío la información json en POST
-        fetch("../servidor/loginusuario.php?usuario="+usuario+"&contrasena="+contrasena)
+        fetch("../servidor/loginusuario.php?usuario="+usuario+"&contrasena="+contrasena)  // Realiza una petición a un servicio PHP enviando los datos del usuario y contraseña
         .then(response => {
-          return response.json();                       // Quiero que el servidor me devuelva un json
+            return response.json();  // Convierte la respuesta a formato JSON
         })
         .then(data => {
-          console.log('Success:', data);                // De momento voy a poner ese JSON en la consola simplemente para ver que la comunicacion es ok
-          if(data.resultado == 'ok'){                   // En el caso de que el login sea satisfactorio
-            console.log("Entras correctamente")
-            localStorage.setItem('crimson_usuario', data.usuario);       // Ahora necesito un mencanismo para que el cliente recuerde quien soy
-            document.querySelector("#feedback").style.color = "green"         // Pongo el mensaje de color verde
-            document.querySelector("#feedback").innerHTML = "Acceso correcto. Redirigiendo en 5 segundos...";   // Escribo un mensaje de ok
-            setTimeout(function(){
-                window.location = "escritorio/index.html";                            // Me voy al escritorio                 
-            },5000)
-          }else{
-            console.log("Error al entrar")
-            document.querySelector("#feedback").style.color = "red"           // Pongo el mensaje de color rojo
-            document.querySelector("#feedback").innerHTML = "Usuario incorrecto. Redirigiendo en 5 segundos...";        // Escribo mensaje de error
-            setTimeout(function(){
-                window.location = window.location;                              // en 5 segundos vuelvo al mismo sitio
-            },5000)
-          }
-        })
+            console.log('Success:', data);  // Imprime en consola el JSON recibido para verificar que la comunicación es correcta
+
+            if(data.resultado == 'ok'){  // Si el servidor devuelve "ok", el login fue satisfactorio
+                console.log("Entras correctamente");  // Muestra mensaje de login exitoso en consola
+                localStorage.setItem('crimson_usuario', data.usuario);  // Guarda el usuario en localStorage para recordarlo
+
+                document.querySelector("#feedback").style.color = "green";  // Cambia el color del mensaje a verde
+                document.querySelector("#feedback").innerHTML = "Acceso correcto. Redirigiendo en 5 segundos...";  // Muestra mensaje de éxito
+
+                setTimeout(function(){ 
+                    window.location = "escritorio/index.html";  // Redirige al escritorio tras 5 segundos
+                }, 5000);
+            } else {
+                console.log("Error al entrar");  // Muestra mensaje de error en consola si el login falla
+                document.querySelector("#feedback").style.color = "red";  // Cambia el color del mensaje a rojo
+                document.querySelector("#feedback").innerHTML = "Usuario incorrecto. Redirigiendo en 5 segundos...";  // Muestra mensaje de error
+
+                setTimeout(function(){ 
+                    window.location = window.location;  // Recarga la página después de 5 segundos
+                }, 5000);
+            }
+        });
     }
 }
+

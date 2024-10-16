@@ -1,26 +1,27 @@
 window.onload = function(){
-    fetch("../../servidor/lista_aplicaciones.php")         // LLamo a un microservicio que me da la lista de aplicaciones
+    fetch("../../servidor/lista_aplicaciones.php")         // Llamo a un microservicio que me da la lista de aplicaciones
         .then(response => {
-          return response.json();                       // Quiero que el servidor me devuelva un json
+          return response.json();                         // Solicito que el servidor me devuelva la respuesta en formato JSON
         })
         .then(data => {
-            const plantilla = document.getElementById('plantilla_aplicacion');              // Cargo el template HTML como una plantilla en memoria (como un class)
-            console.log(data)                                                               // Vomito el json en pantalla
-            data.forEach(function(elemento) {                                               // Para cada uno de los elementos que vienen en el json de la base de datos
-                console.log(elemento);                                                      // Pongo el elemento en pantalla simplemente para comprobar que funciona
-                const instancia = plantilla.content.cloneNode(true);                        // Creo  una nueva instancia de la clase (como un instance)
-                const nombre = instancia.querySelector('p');                                // Dentro de la plantilla selecciono a uno de los elementos
-                nombre.innerHTML = elemento.nombre;                                         // Y le pongo el contenido que saco del json
-                const imagen = instancia.querySelector("img")
-                imagen.setAttribute("src","img/"+elemento.icono)
-                document.querySelector('main').appendChild(instancia);                      // Por ultimo realmente pongo la instancia en el arbol html
+            const plantilla = document.getElementById('plantilla_aplicacion');              // Cargo el template HTML (plantilla) en memoria
+            console.log(data);                                                               // Imprimo el JSON recibido en la consola para comprobar los datos
+            data.forEach(function(elemento) {                                                // Itero sobre cada elemento del JSON recibido
+                console.log(elemento);                                                      // Imprimo cada elemento del JSON en la consola para depuración
+                const instancia = plantilla.content.cloneNode(true);                        // Clono la plantilla para crear una nueva instancia
+                const nombre = instancia.querySelector('p');                                // Selecciono el elemento <p> dentro de la plantilla
+                nombre.innerHTML = elemento.nombre;                                         // Asigno el nombre de la aplicación desde el JSON al <p>
+                const imagen = instancia.querySelector("img");                              // Selecciono el elemento <img> dentro de la plantilla
+                imagen.setAttribute("src","img/"+elemento.icono);                           // Asigno la ruta del icono usando el valor del JSON
+                document.querySelector('main').appendChild(instancia);                      // Inserto la instancia clonada en el DOM, dentro de la etiqueta <main>
             });
             
-            let aplicaciones = document.querySelectorAll(".aplicacion")                     // Selecciono todas las aplicaciones y las pongo en un array
-            aplicaciones.forEach(function(aplicacion){                                      // Para cada una de las aplicaciones
-                aplicacion.onclick = function(){                                            // Cuando haga click en esa aplicacion
-                    window.location = "../supercontrolador/"
+            let aplicaciones = document.querySelectorAll(".aplicacion");                    // Selecciono todas las aplicaciones generadas (con clase "aplicacion")
+            aplicaciones.forEach(function(aplicacion){                                      // Para cada aplicación generada
+                aplicacion.onclick = function(){                                            // Asigno una función de clic a cada aplicación
+                    window.location = "../supercontrolador/";                               // Redirijo a otra página al hacer clic en la aplicación
                 }
             })
         })
 }
+
