@@ -1,47 +1,46 @@
 <?php
-	if(isset($_POST['usuario'])){
-		ini_set('display_errors', 1);																			// Muestro los errores de PHP
-		ini_set('display_startup_errors', 1);															// Muestro los errores de inicio
-		error_reporting(E_ALL);																						// Quiero mostrar todos los tipos de error
+	if(isset($_POST['usuario'])){ // Verificamos si se ha enviado el formulario
+		ini_set('display_errors', 1); // Activamos la visualización de errores de PHP
+		ini_set('display_startup_errors', 1); // Activamos la visualización de errores de inicio de PHP
+		error_reporting(E_ALL); // Establecemos el nivel de reporte de errores en todos los tipos
 
+		// Establecemos la conexión a la base de datos utilizando los datos proporcionados por el usuario
 		$enlace = mysqli_connect(
-		$_POST['servidor'], 
-		$_POST['usuario'], 
-		$_POST['contrasena'], 
-		$_POST['basededatos']
-		) OR die("error");																								// Me conecto a la base de datos
+			$_POST['servidor'], // Servidor de la base de datos
+			$_POST['usuario'], // Usuario de la base de datos
+			$_POST['contrasena'], // Contraseña de la base de datos
+			$_POST['basededatos'] // Nombre de la base de datos
+		) OR die("error"); // Establecemos la conexión a la base de datos
 
-		
-		$json = file_get_contents("004-modelodedatos.json");							// Leo el contenido del schema
-		$datos = json_decode($json, true);																// Lo proceso como objeto de php
+		// Leemos el contenido del archivo JSON que contiene la estructura de las tablas
+		$json = file_get_contents("004-modelodedatos.json"); 
+		$datos = json_decode($json, true); // Decodificamos el contenido del archivo JSON en un array asociativo
 
-		foreach ($datos as $dato) {																				// Para cada una de las tablas
-			  $nombredetabla = $dato['nombre'];															// Tomo el nombre de la tabla
-			  $cadena = "CREATE TABLE ".$nombredetabla." ( 
-			  Identificador INT NOT NULL AUTO_INCREMENT , ";								// Creo una cadena indicando el nombre de la tabla
-			  foreach($dato['columnas'] as $columna){												// Para cada una de las columnas
-			  	$cadena .= $columna['nombre']." ".$columna['tipo']." ";			// Añado un campo por cada elemento del array
-					if($columna['tipo'] != "TEXT"){															// En el caso de que el campo no sea un text
-						$cadena .= " (".$columna['longitud'].") ";								// Le añado la longitud
-					}
-					$cadena .= ",";																							// Añado una coma al final de cada campo
-			  }
-			  	$cadena .= "PRIMARY KEY (Identificador) ";									// Le añado una clave primaria
-			  	$cadena .= " )  ENGINE = InnoDB";														// Le añado el tipo de motor de la base de datos
-			  	//echo $cadena;																								// Lanzo la cadena para debug
-				mysqli_query($enlace, $cadena);																// Ejecuto la peticioń contra la base de datos
-
+		// Iteramos sobre el array asociativo para crear las tablas en la base de datos
+		foreach ($datos as $dato) { 
+			$nombredetabla = $dato['nombre']; // Obtenemos el nombre de la tabla
+			$cadena = "CREATE TABLE ".$nombredetabla." (
+			Identificador INT NOT NULL AUTO_INCREMENT , "; // Agregamos la columna Identificador
+			foreach($dato['columnas'] as $columna){ // Iteramos sobre las columnas de la tabla
+				$cadena .= $columna['nombre']." ".$columna['tipo']." "; // Agregamos un campo por cada columna
+				if($columna['tipo'] != "TEXT"){ // Verificamos si el tipo de la columna no es TEXT
+					$cadena .= " (".$columna['longitud'].") "; // Agregamos la longitud de la columna si es necesario
+				}
+				$cadena .= ","; // Agregamos una coma al final de cada campo
+			}
+			$cadena .= "PRIMARY KEY (Identificador) "; // Agregamos la clave primaria
+			$cadena .= " )  ENGINE = InnoDB"; // Agregamos el tipo de motor de la base de datos
+			mysqli_query($enlace, $cadena); // Ejecutamos la sentencia SQL para crear la tabla
 		}
 	}else{
-	
+		// Si no se ha enviado el formulario, mostramos el formulario HTML
 ?>
 <!doctype html>
 <html>
 	<head>
-		<title>
-			Instalador de bases de datos
-		</title>
+		<title>Instalador de bases de datos</title> 
 		<style>
+			/* Estilos para el formulario */
 			body,html{
 				height:100%;padding:0px;margin:0px;
 				background:url(fondo.jpg);background-size:cover;
@@ -68,13 +67,13 @@
 		</style>
 	</head>
 	<body>
-		<form method="POST" action="?">
-		<h1>Instalador</h1>
-			<input type="text" name="usuario" placeholder="Usuario de la base de datos">
-			<input type="text" name="contrasena" placeholder="Contraseña de la base de datos">
-			<input type="text" name="servidor" placeholder="Servidor de la base de datos">
-			<input type="text" name="basededatos" placeholder="Nombre de la base de datos">
-			<input type="submit">
+		<form method="POST" action="?"> 
+			<h1>Instalador</h1>
+			<input type="text" name="usuario" placeholder="Usuario de la base de datos"> 
+			<input type="text" name="contrasena" placeholder="Contraseña de la base de datos"> 
+			<input type="text" name="servidor" placeholder="Servidor de la base de datos"> 
+			<input type="text" name="basededatos" placeholder="Nombre de la base de datos"> 
+			<input type="submit"> 
 		</form>
 	</body>
 </html>

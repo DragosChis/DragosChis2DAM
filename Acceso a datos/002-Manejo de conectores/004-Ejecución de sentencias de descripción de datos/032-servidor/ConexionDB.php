@@ -2,106 +2,107 @@
 
 	class conexionDB{																													// Creo una nueva clase
 		
-			private $servidor;																										// creo una serie de propiedades privadas
-			private $usuario;																											// 
-			private $contrasena;																									// 
-			private $basededatos;																									// 
-			private $conexion;																										// 
+			private $servidor;																										// Creo una serie de propiedades privadas
+			private $usuario;																											// Propiedad para el usuario de la base de datos
+			private $contrasena;																									// Propiedad para la contraseña de la base de datos
+			private $basededatos;																									// Propiedad para el nombre de la base de datos
+			private $conexion;																										// Propiedad para la conexión a la base de datos
 			
-			public function __construct() {																				// Creo un constructor
-        $this->servidor = "localhost";																			// Le doy los datos de acceso a la base de datos
-        $this->usuario = "crimson";																		// 
-        $this->contrasena = "crimson";																	// 
-        $this->basededatos = "crimson";																// 
+			public function __construct() {																				// Constructor de la clase
+        $this->servidor = "localhost";																			// Asigno el servidor
+        $this->usuario = "crimson";																		// Asigno el usuario
+        $this->contrasena = "crimson";																	// Asigno la contraseña
+        $this->basededatos = "crimson";																// Asigno la base de datos
         
-        $this->conexion = mysqli_connect(
+        $this->conexion = mysqli_connect(																	// Establezco la conexión a la base de datos
 					$this->servidor, 
 					$this->usuario, 
 					$this->contrasena, 
 					$this->basededatos
-				);																															// Establezco una conexión con la base de datos
+				);	
     }
-			public function seleccionaTabla($tabla){													// Creo un metodo de seleccion
-				$query = "SELECT * FROM ".$tabla.";";														// Creo la petición dinámica
-				$result = mysqli_query($this->conexion , $query);								// Ejecuto la peticion
-				$resultado = [];																								// Creo un array vacio
-				while ($row = mysqli_fetch_assoc($result)) {										// PAra cada uno de los registros
-						//$resultado[] = $row;																			// Los añado al array
-						$fila = [];
-						foreach($row as $clave=>$valor){
-							$fila[$clave] = $valor;
+			public function seleccionaTabla($tabla){													// Método para seleccionar registros de una tabla
+				$query = "SELECT * FROM ".$tabla.";";														// Query para seleccionar todos los registros de la tabla
+				$result = mysqli_query($this->conexion , $query);								// Ejecuto la consulta
+				$resultado = [];																								// Array vacío para almacenar resultados
+				while ($row = mysqli_fetch_assoc($result)) {										// Itero sobre los registros obtenidos
+						//$resultado[] = $row;																			// Comentado: agrega la fila al array de resultados
+						$fila = [];																								// Array para almacenar los valores de cada fila
+						foreach($row as $clave=>$valor){															// Itero sobre cada columna del registro
+							$fila[$clave] = $valor;																		// Almaceno clave-valor en el array de la fila
 						}
-						$resultado[] = $fila;
+						$resultado[] = $fila;																						// Agrego la fila al array de resultados
 				}
-				$json = json_encode($resultado, JSON_PRETTY_PRINT);							// Lo codifico como json
-				return $json;																										// Devuelvo el json
+				$json = json_encode($resultado, JSON_PRETTY_PRINT);							// Convierto el resultado a formato JSON
+				return $json;																										// Retorno el JSON generado
 			}
 			
-			public function listadoTablas(){
-				$query = "SHOW TABLES;";																				// Creo la petición dinámica
-				$result = mysqli_query($this->conexion , $query);								// Ejecuto la peticion
-				$resultado = [];																								// Creo un array vacio
-				while ($row = mysqli_fetch_assoc($result)) {										// PAra cada uno de los registros
-						//$resultado[] = $row;																			// Los añado al array
-						$fila = [];
-						foreach($row as $clave=>$valor){
-							$fila[$clave] = $valor;
+			public function listadoTablas(){																			// Método para listar todas las tablas
+				$query = "SHOW TABLES;";																				// Query para mostrar todas las tablas en la base de datos
+				$result = mysqli_query($this->conexion , $query);								// Ejecuto la consulta
+				$resultado = [];																								// Array vacío para almacenar resultados
+				while ($row = mysqli_fetch_assoc($result)) {										// Itero sobre los resultados
+						//$resultado[] = $row;																			// Comentado: agrega la fila al array de resultados
+						$fila = [];																								// Array para almacenar los valores de cada fila
+						foreach($row as $clave=>$valor){															// Itero sobre cada columna del registro
+							$fila[$clave] = $valor;																		// Almaceno clave-valor en el array de la fila
 						}
-						$resultado[] = $fila;
+						$resultado[] = $fila;																						// Agrego la fila al array de resultados
 				}
-				$json = json_encode($resultado, JSON_PRETTY_PRINT);							// Lo codifico como json
-				return $json;																										// Devuelvo el json
+				$json = json_encode($resultado, JSON_PRETTY_PRINT);							// Convierto el resultado a formato JSON
+				return $json;																										// Retorno el JSON generado
 			}
 			
-			public function insertaTabla($tabla,$valores){										// Método de inserción de nuevos registros
-					$campos = "";																									// Creo un string para guardar los campos
-					$datos = ""; 																									// Creo un string para guardar los datos
-					foreach($valores as $clave=>$valor){													// Para cada uno de los datos
-						$campos .= $clave.",";																			// Añado el nombre del campo al string
-						$datos .= "'".$valor."',";																	// Añado del dato al string
+			public function insertaTabla($tabla,$valores){										// Método para insertar registros en una tabla
+					$campos = "";																									// String para los nombres de los campos
+					$datos = ""; 																									// String para los valores de los campos
+					foreach($valores as $clave=>$valor){													// Itero sobre los valores recibidos
+						$campos .= $clave.",";																			// Concateno el nombre del campo con una coma
+						$datos .= "'".$valor."',";																	// Concateno el valor del campo entre comillas con una coma
 					}
-					$campos = substr($campos, 0, -1);															// Le quito la ultima coma al string
-					$datos = substr($datos, 0, -1);																// Le quito la ultima coma al string
-					$query = "
+					$campos = substr($campos, 0, -1);															// Elimino la última coma del string de campos
+					$datos = substr($datos, 0, -1);																// Elimino la última coma del string de valores
+					$query = "																											
 						INSERT INTO ".$tabla." 
 						(".$campos.") 
 						VALUES (".$datos.");
-						";																													// preparo la petición de inserción
-					$result = mysqli_query($this->conexion , $query);							// Ejecuto la peticion
-					return 0;																											// return 0
+						";
+					$result = mysqli_query($this->conexion , $query);							// Ejecuto la consulta de inserción
+					return 0;																											// Retorno 0
 			}
 			
-			public function actualizaTabla($tabla,$valores,$id){
-					$query = "
+			public function actualizaTabla($tabla,$valores,$id){								// Método para actualizar registros de una tabla
+					$query = "																											
 						UPDATE ".$tabla." 
 						SET
-						";																													// Empiezo a formatear la query de actualización
-					foreach($valores as $clave=>$valor){													// Para cada uno de los datos
-						$query .= $clave."='".$valor."', ";													// Encadeno con la query
+						";
+					foreach($valores as $clave=>$valor){													// Itero sobre los valores recibidos
+						$query .= $clave."='".$valor."', ";													// Concateno clave-valor con coma y espacio
 					}
-					$query = substr($query, 0, -2);																// Le quito los dos ultimos caracteres
-						$query .= "
+					$query = substr($query, 0, -2);																// Elimino los últimos dos caracteres (coma y espacio)
+						$query .= "																										
 						WHERE Identificador = ".$id."
-						";																													// preparo la petición de inserción
-					echo $query;
-					$result = mysqli_query($this->conexion , $query);							// Ejecuto la peticion
-					return "";							
+						";
+					echo $query;																										// Muestro la query generada
+					$result = mysqli_query($this->conexion , $query);							// Ejecuto la consulta de actualización
+					return "";																											// Retorno un string vacío
 			}
-			public function eliminaTabla($tabla,$id){
-				$query = "
+			public function eliminaTabla($tabla,$id){															// Método para eliminar un registro de una tabla
+				$query = "																												
 						DELETE FROM ".$tabla." 
 						WHERE Identificador = ".$id.";
-						";	
-				$result = mysqli_query($this->conexion , $query);							// Ejecuto la peticion
+						";
+				$result = mysqli_query($this->conexion , $query);							// Ejecuto la consulta de eliminación
 			}
 			
-			private function codifica($entrada){
-				return base64_encode($entrada);
+			private function codifica($entrada){																// Método privado para codificar una cadena en base64
+				return base64_encode($entrada);																// Retorno la cadena codificada en base64
 			}
 			
-			private function decodifica($entrada){
-				return base64_decode($entrada);
+			private function decodifica($entrada){															// Método privado para decodificar una cadena en base64
+				return base64_decode($entrada);																// Retorno la cadena decodificada en base64
 			}
 	}
 
 ?>
+

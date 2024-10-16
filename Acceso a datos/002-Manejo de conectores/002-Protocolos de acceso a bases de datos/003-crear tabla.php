@@ -6,7 +6,7 @@
 	"accesoadatos", 
 	"accesoadatos"
 	) OR die("error");
-
+//En el supuesto caso de que ya se haya creado la tabla dara fatal error
 	mysqli_query($enlace, "
 		CREATE TABLE clientes (
 		Identificador INT NOT NULL AUTO_INCREMENT ,

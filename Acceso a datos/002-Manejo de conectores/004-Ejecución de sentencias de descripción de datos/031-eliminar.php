@@ -17,19 +17,18 @@
         $this->contrasena = "accesoadatos";																	// 
         $this->basededatos = "accesoadatos";																// 
         
-        $this->conexion = mysqli_connect(
+        $this->conexion = mysqli_connect(																				// Establezco una conexión con la base de datos
 					$this->servidor, 
 					$this->usuario, 
 					$this->contrasena, 
 					$this->basededatos
-				);																															// Establezco una conexión con la base de datos
+				);																														
     }
 			public function seleccionaTabla($tabla){													// Creo un metodo de seleccion
 				$query = "SELECT * FROM ".$tabla.";";														// Creo la petición dinámica
 				$result = mysqli_query($this->conexion , $query);								// Ejecuto la peticion
 				$resultado = [];																								// Creo un array vacio
-				while ($row = mysqli_fetch_assoc($result)) {										// PAra cada uno de los registros
-						//$resultado[] = $row;																			// Los añado al array
+				while ($row = mysqli_fetch_assoc($result)) {										// Para cada uno de los registros
 						$fila = [];
 						foreach($row as $clave=>$valor){
 							$fila[$clave] = $valor;
@@ -40,12 +39,11 @@
 				return $json;																										// Devuelvo el json
 			}
 			
-			public function listadoTablas(){
+			public function listadoTablas(){																// Método de listado de tablas
 				$query = "SHOW TABLES;";																				// Creo la petición dinámica
 				$result = mysqli_query($this->conexion , $query);								// Ejecuto la peticion
 				$resultado = [];																								// Creo un array vacio
-				while ($row = mysqli_fetch_assoc($result)) {										// PAra cada uno de los registros
-						//$resultado[] = $row;																			// Los añado al array
+				while ($row = mysqli_fetch_assoc($result)) {										// Para cada uno de los registros
 						$fila = [];
 						foreach($row as $clave=>$valor){
 							$fila[$clave] = $valor;
@@ -69,12 +67,12 @@
 						INSERT INTO ".$tabla." 
 						(".$campos.") 
 						VALUES (".$datos.");
-						";																													// preparo la petición de inserción
+						";																													// Preparo la petición de inserción
 					$result = mysqli_query($this->conexion , $query);							// Ejecuto la peticion
 					return 0;																											// return 0
 			}
 			
-			public function actualizaTabla($tabla,$valores,$id){
+			public function actualizaTabla($tabla,$valores,$id){								// Método de actualización
 					$query = "
 						UPDATE ".$tabla." 
 						SET
@@ -83,39 +81,35 @@
 						$query .= $clave."='".$valor."', ";													// Encadeno con la query
 					}
 					$query = substr($query, 0, -2);																// Le quito los dos ultimos caracteres
-						$query .= "
+					$query .= "
 						WHERE Identificador = ".$id."
-						";																													// preparo la petición de inserción
+						";																													// Preparo la petición de actualización
 					echo $query;
-					$result = mysqli_query($this->conexion , $query);							// Ejecuto la peticion
+					$result = mysqli_query($this->conexion , $query);							// Ejecuto la petición
 					return "";							
 			}
-			public function eliminaTabla($tabla,$id){
+			
+			public function eliminaTabla($tabla,$id){												// Método de eliminación de registros
 				$query = "
 						DELETE FROM ".$tabla." 
 						WHERE Identificador = ".$id.";
-						";	
-				$result = mysqli_query($this->conexion , $query);							// Ejecuto la peticion
+						";																													// Preparo la petición de eliminación
+				$result = mysqli_query($this->conexion , $query);							// Ejecuto la petición
 			}
 			
-			private function codifica($entrada){
+			private function codifica($entrada){													// Método para codificar base64
 				return base64_encode($entrada);
 			}
 			
-			private function decodifica($entrada){
+			private function decodifica($entrada){												// Método para decodificar base64
 				return base64_decode($entrada);
 			}
 	}
 	
-	$conexion = new conexionDB();												//
-	
-	/*echo $conexion->seleccionaTabla("empleados");	
-	echo "<br><br>";
-	echo $conexion->listadoTablas();		//*/
-	
-	echo $conexion->eliminaTabla(
+	$conexion = new conexionDB();												// Crear una nueva instancia de la conexión a la base de datos
+	echo $conexion->eliminaTabla(																// Llama al método para eliminar un registro de la tabla 'clientes'
 		"clientes",
-		'4'
+		'5'																													// El identificador del registro a eliminar
 		);
-	
 ?>
+

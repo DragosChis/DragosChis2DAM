@@ -16,10 +16,9 @@
 		) ENGINE = InnoDB;
 		");*/
 	
-	$json = file_get_contents("004-modelodedatos.json");
-	$datos = json_decode($json, true);
-	var_dump($datos);
-	
+  $json = file_get_contents("004-modelodedatos.json");  // Leemos el contenido del archivo "004-modelodedatos.json" en una variable
+  $datos = json_decode($json, true);  // Decodificamos el contenido JSON en un array asociativo
+  var_dump($datos);  // Mostramos el contenido del array asociativo utilizando var_dump
 ?>
 
 
