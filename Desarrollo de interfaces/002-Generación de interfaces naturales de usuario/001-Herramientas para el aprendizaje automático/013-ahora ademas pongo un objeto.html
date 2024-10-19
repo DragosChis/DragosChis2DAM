@@ -4,100 +4,98 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <input type="text" id="cajaentrenamiento">
-    <button id="procesa">Procesa!</button><br>
-    <video id="webcam" autoplay></video>
-    <canvas id="canvas"></canvas>
-    <canvas id="canvas2"></canvas>
-    <canvas id="canvas3"></canvas>
+    <input type="text" id="cajaentrenamiento">                      <!-- Caja de texto para ingresar un identificador o dato de entrenamiento -->
+    <button id="procesa">Procesa!</button><br>                      <!-- Botón que activa el procesamiento cuando se hace clic -->
+    <video id="webcam" autoplay></video>                            <!-- Video que muestra la transmisión en vivo de la webcam -->
+    <canvas id="canvas"></canvas>                                   <!-- Primer lienzo donde se renderiza la imagen del video -->
+    <canvas id="canvas2"></canvas>                                  <!-- Segundo lienzo usado para procesar la imagen -->
+    <canvas id="canvas3"></canvas>                                  <!-- Tercer lienzo usado para graficar resultados del procesamiento -->
     <script>
-        var memoria = [];
-        var neuronas = []
-        const video = document.getElementById('webcam');                                    // Selecciono el video en el HTML    
-        const canvas = document.getElementById('canvas');                                   // Ahora selecciono el lienzo
-        const contexto = canvas.getContext('2d');                                           // Creo un contexto
+        var memoria = [];                                            // Array para almacenar los datos procesados (memoria)
+        var neuronas = []                                            // Array que representa los patrones neuronales procesados
+        const video = document.getElementById('webcam');             // Obtengo el elemento de video desde el HTML
+        const canvas = document.getElementById('canvas');            // Obtengo el primer lienzo donde se dibuja el video
+        const contexto = canvas.getContext('2d');                    // Defino el contexto 2D para dibujar en el primer lienzo
         
-        const canvas2 = document.getElementById('canvas2');                                   // Ahora selecciono el lienzo
-        const contexto2 = canvas2.getContext('2d');                                           // Creo un contexto
-        
-        const canvas3 = document.getElementById('canvas3');                                   // Ahora selecciono el lienzo
-        const contexto3 = canvas3.getContext('2d');                                           // Creo un contexto
+        const canvas2 = document.getElementById('canvas2');          // Obtengo el segundo lienzo para procesar la imagen
+        const contexto2 = canvas2.getContext('2d');                  // Defino el contexto 2D para el segundo lienzo
 
-        navigator.mediaDevices.getUserMedia({ video: true })                                // Del navegador, atrapo el feed de la camara
-            .then((stream) => {                                                             // Y entonces
-                video.srcObject = stream;                                                   // El contenido del video es el feed de la camara
-                video.addEventListener('loadedmetadata', () => {                            // Cuando el video ha cargado
-                    canvas.width = video.videoWidth;                                        // Ajusto la anchura del canvas a la anchura del video
-                    canvas.height = video.videoHeight;                                      // Ajusto la altura del canvas a la altura del video
+        const canvas3 = document.getElementById('canvas3');          // Obtengo el tercer lienzo, usado para visualizar los resultados
+        const contexto3 = canvas3.getContext('2d');                  // Defino el contexto 2D para el tercer lienzo
+
+        navigator.mediaDevices.getUserMedia({ video: true })         // Pido acceso a la cámara del usuario para obtener el stream
+            .then((stream) => {                                      // Cuando se otorga el acceso a la cámara
+                video.srcObject = stream;                            // Asigno el stream de la cámara al elemento de video
+                video.addEventListener('loadedmetadata', () => {     // Cuando los metadatos del video se han cargado
+                    canvas.width = video.videoWidth;                 // Ajusto el ancho del primer lienzo al del video
+                    canvas.height = video.videoHeight;               // Ajusto la altura del primer lienzo al del video
                     
-                    canvas2.width = video.videoWidth;                                        // Ajusto la anchura del canvas a la anchura del video
-                    canvas2.height = video.videoHeight;                                      // Ajusto la altura del canvas a la altura del video
+                    canvas2.width = video.videoWidth;                // Ajusto el ancho del segundo lienzo al del video
+                    canvas2.height = video.videoHeight;              // Ajusto la altura del segundo lienzo al del video
                     
-                    canvas3.width = video.videoWidth;                                        // Ajusto la anchura del canvas a la anchura del video
-                    canvas3.height = video.videoHeight;                                      // Ajusto la altura del canvas a la altura del video
+                    canvas3.width = video.videoWidth;                // Ajusto el ancho del tercer lienzo al del video
+                    canvas3.height = video.videoHeight;              // Ajusto la altura del tercer lienzo al del video
                     
-                    function draw() {                                                       // Creo una funcion de dibujo que:
-                        contexto.drawImage(video, 0, 0, canvas.width, canvas.height);       // Pinta el contenido del video en el canvas
-                        var datos = contexto.getImageData(0,0,canvas.width, canvas.height)  // Cargo en memoria todos los datos del canvas 1
-                        let umbral = 25;
-                        for(let i = 0;i<datos.data.length;i+=4){                            // Y ahora los proceso pixel a pixel
-                          if(
-                          Math.abs(datos.data[i] - datos.data[i+4]) > umbral
-                          ||
-                          Math.abs(datos.data[i] - datos.data[i+canvas.width*4]) > umbral
-                          ){                                                                // Creo un borde vertical
-                            datos.data[i] = 0                                               // O bien los pinto negro
-                            datos.data[i+1] = 0
-                            datos.data[i+2] = 0
-                          }else{
-                            datos.data[i] = 255                                             // O bien los pinto blanco
-                            datos.data[i+1] = 255
-                            datos.data[i+2] = 255
+                    function draw() {                                // Función que procesa la imagen del video en tiempo real
+                        contexto.drawImage(video, 0, 0, canvas.width, canvas.height);  // Dibujo la imagen del video en el primer lienzo
+                        var datos = contexto.getImageData(0, 0, canvas.width, canvas.height);  // Obtengo los datos de la imagen en el primer lienzo
+                        let umbral = 25;                             // Umbral para la detección de diferencias entre píxeles
+                        for(let i = 0; i < datos.data.length; i += 4){  // Recorro los píxeles de la imagen de a 4 en 4 (RGBA)
+                          if (
+                          Math.abs(datos.data[i] - datos.data[i + 4]) > umbral ||   // Comparo diferencias en píxeles adyacentes horizontalmente
+                          Math.abs(datos.data[i] - datos.data[i + canvas.width * 4]) > umbral  // Comparo diferencias en píxeles adyacentes verticalmente
+                          ){                                                         // Si la diferencia supera el umbral
+                            datos.data[i] = 0;                                       // Pinto el píxel de negro
+                            datos.data[i + 1] = 0;
+                            datos.data[i + 2] = 0;
+                          } else {                                                   // Si la diferencia es menor que el umbral
+                            datos.data[i] = 255;                                     // Pinto el píxel de blanco
+                            datos.data[i + 1] = 255;
+                            datos.data[i + 2] = 255;
                           }
                         }
-                        contexto2.putImageData(datos,0,0)                                   // Pongo la imagen en blanco y negro
-                        neuronas = []
-                        for(let x = 0;x<video.videoWidth;x+=2){                             // Repaso toda la imagen en X
-                          for(let y = 0;y<video.videoHeight;y+=2){                          // Repaso toda la imagen en Y
-                            let bloque = contexto2.getImageData(x,y,2,2)                     // Cojo de momento un bloque de 2x2
-                            let cadena = ""                                                 // Creo una cadena
-                            for(let i = 0;i<bloque.data.length;i+=4){                       // Cojo un ese bloque de 2x2
-                              if(bloque.data[i] == 255){                                    // Si el pixel rojo es 255
-                                cadena += "1"                                               // Pues le pongo un uno a la cadena
-                              }else{                                                        // En caso contrario
-                                cadena += "0"                                               // Le pongo un cero
+                        contexto2.putImageData(datos, 0, 0);                         // Coloco la imagen procesada (blanco y negro) en el segundo lienzo
+                        neuronas = [];                                               // Reinicio el array que almacena los patrones neuronales
+                        for(let x = 0; x < video.videoWidth; x += 2){                // Recorro la imagen en bloques de 2x2 en X
+                          for(let y = 0; y < video.videoHeight; y += 2){             // Recorro la imagen en bloques de 2x2 en Y
+                            let bloque = contexto2.getImageData(x, y, 2, 2);         // Obtengo un bloque de 2x2 píxeles de la imagen procesada
+                            let cadena = "";                                         // Inicializo una cadena para representar el bloque
+                            for(let i = 0; i < bloque.data.length; i += 4){          // Recorro los píxeles del bloque de 2x2
+                              if(bloque.data[i] == 255){                             // Si el píxel es blanco
+                                cadena += "1";                                       // Agrego "1" a la cadena
+                              } else {                                               // Si el píxel es negro
+                                cadena += "0";                                       // Agrego "0" a la cadena
                               }
                             }
-                            if(neuronas[cadena] == undefined){
-                              neuronas[cadena] = 1
-                            }else{
-                              neuronas[cadena]++
+                            if(neuronas[cadena] == undefined){                       // Si el patrón no está en el array de neuronas
+                              neuronas[cadena] = 1;                                  // Lo inicializo con valor 1
+                            } else {                                                 // Si ya existe
+                              neuronas[cadena]++;                                    // Incremento su valor
                             }
-                            
                           }
                         }
-                        //console.log(neuronas)
-                        contexto3.clearRect(0,0,video.videoWidth,video.videoHeight)
-                        for (let i = 0; i < 16; i++) {
-                            let binary = i.toString(2).padStart(4, '0'); 
-                            contexto3.fillRect(0,i*16,neuronas[binary],14)
+                        //console.log(neuronas)                                       // Descomentar para ver el contenido de "neuronas" en la consola
+                        contexto3.clearRect(0, 0, video.videoWidth, video.videoHeight);  // Limpio el tercer lienzo
+                        for (let i = 0; i < 16; i++) {                                // Recorro los 16 patrones binarios de 4 bits posibles
+                            let binary = i.toString(2).padStart(4, '0');              // Convierto el número a un binario de 4 bits
+                            contexto3.fillRect(0, i * 16, neuronas[binary], 14);      // Dibujo un rectángulo representando la cantidad de patrones
                         }
-                                                                                // Forma muy poco elegante de parar la ejecucion
-                        requestAnimationFrame(draw);                                        // Una vez lo ha hecho, se llama a si misma, (Es decir, un bucle)
+                                                                                // Comentario sobre la forma no óptima de detener la ejecución
+                        requestAnimationFrame(draw);                                // Llamo a la función "draw" continuamente (bucle)
                     }
-                    draw();                                                                 // Llamo una primera vez a la funcion
+                    draw();                                                         // Inicio el procesamiento llamando a "draw"
                 });
             })
-            .catch((err) => {                                                               // En el caso de que el navegador me de algun tipo de error
-                console.error('Error accessing the webcam:', err);                          // Lanzo el error
+            .catch((err) => {                                                       // Si hay un error al acceder a la cámara
+                console.error('Error accessing the webcam:', err);                  // Imprimo el error en la consola
             });
             
-            document.querySelector("button").onclick = function(){
-            
-              memoria.push({"identificador":document.querySelector("input").value,"datos":neuronas})
-              console.log(memoria)
+            document.querySelector("button").onclick = function(){                  // Evento que se ejecuta al hacer clic en el botón
+              memoria.push({"identificador": document.querySelector("input").value, "datos": neuronas});  // Guardo el identificador y los datos neuronales en "memoria"
+              console.log(memoria);                                                 // Imprimo el array "memoria" en la consola
             }
     </script>
 </body>
 </html>
+
 

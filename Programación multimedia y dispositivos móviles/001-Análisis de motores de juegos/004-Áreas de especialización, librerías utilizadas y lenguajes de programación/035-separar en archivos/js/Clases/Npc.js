@@ -5,7 +5,6 @@ class Npc{
           this.y = Math.random()*512; // Se le da una posición entre 0 y 512 en y
           this.angulo = Math.random()*Math.PI*2 // Se le da  un ángulo entre 0 y 2*PI radianes
           this.vy = 0;
-          
         }
         // Este es un método para que se detecte la colisión con las paredes y rebote
         rebota(){
@@ -25,7 +24,6 @@ class Npc{
         // Este método es el encargado de dibujar el Npc
         dibuja(){
           //contexto.fillRect(this.x,this.y,30,30);
-          contexto.drawImage(imagenmalo,this.x-desfase_global_x,this.y, 100, 50)
-           
+          contexto.drawImage(imagenmalo,this.x-desfase_global_x,this.y)
         }
       }

@@ -17,9 +17,9 @@
       /*//////////////////////////////IMAGENES////////////////////////////////*/
       
       var imagenbueno = new Image();                                          // Creo una nueva imagen como objeto de Javascript
-      imagenbueno.src = "./img/deportivo.png"                                     // Le pongo el origen de la imagen
+      imagenbueno.src = "./img/spritesheetbueno.png"                                     // Le pongo el origen de la imagen
       var imagenmalo = new Image()
-      imagenmalo.src = "./img/policia.png"
+      imagenmalo.src = "./img/malo.png"
       
       /*
       var imagenplataformas = new Image();
@@ -30,7 +30,7 @@
       */
       
       var imagenfondo = new Image();
-      imagenfondo.src = "./img/fondojuego.png"
+      imagenfondo.src = "./img/fondo.jpg"
       imagenfondo.onload = function(){                                  // Cuando la imagen de las plataformas ha cargado desde el disco duro
         contextofondo.drawImage(imagenfondo,0,0)                  // La pinto sobre el lienzo del fondo
       }
@@ -157,7 +157,7 @@
       
       var misnpcs = [];                                                             // Aquí instancio a los npc en un array de 50 elementos
       var balas = [];
-      var numeronpc = 5;                                                           // defino el numero de npc
+      var numeronpc = 12;                                                           // defino el numero de npc
       for(let i = 0;i<numeronpc;i++){                                               // Recorro el array
         misnpcs[i] = new Npc();                                                     // PAra cada elemento, meto una nueva instancia de Npc
       }
